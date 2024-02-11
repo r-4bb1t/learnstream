@@ -29,8 +29,8 @@ export default function Main({
   }, [fetchPlaylists]);
 
   return (
-    <div className="flex h-full w-full flex-col items-center pt-24">
-      <div className="flex w-full flex-wrap justify-center gap-2 px-4">
+    <div className="flex h-full w-full flex-col items-center pt-16">
+      <div className="flex w-full flex-wrap justify-center gap-2 bg-base-100 p-4">
         {CATEGORIES.map((c) => (
           <button
             key={c}
@@ -45,7 +45,7 @@ export default function Main({
         ))}
       </div>
 
-      <div className="mt-20 grid w-full max-w-5xl grid-cols-1 gap-4 px-4 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid w-full max-w-5xl grid-cols-1 gap-4 overflow-auto px-4 py-12 md:grid-cols-3 lg:grid-cols-4">
         {playlists.map((playlist) => (
           <MainCard key={playlist.id} defaultPlaylist={playlist} />
         ))}
