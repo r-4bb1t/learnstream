@@ -32,6 +32,7 @@ export const convertVideo = (rawVideo: RawVideoType): VideoType => {
     thumbnail: rawVideo.items[0].snippet.thumbnails.high.url,
     duration: rawVideo.items[0].contentDetails.duration,
     playlist: "",
+    sharedCnt: 0,
   };
 
   return video;

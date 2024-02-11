@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Sidebar from "./sidebar";
 import { VideoType } from "@/app/type/playlist";
+import { useUserStore } from "@/app/store/user-store";
 
 export default function VideoView({
   params: { id },
@@ -12,12 +13,13 @@ export default function VideoView({
   };
 }) {
   const [video, setVideo] = useState<VideoType>();
+  const { user } = useUserStore();
 
   const fetchVideo = useCallback(async () => {
     const response = await fetch(`/api/video/${id}`);
     const data = await response.json();
     setVideo(data);
-  }, [id]);
+  }, [id, user]);
 
   useEffect(() => {
     fetchVideo();

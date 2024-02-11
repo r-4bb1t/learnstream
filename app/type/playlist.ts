@@ -9,6 +9,8 @@ export interface VideoType {
   thumbnail: string;
   duration: string;
   playlist: string;
+  noteId?: string;
+  sharedCnt: number;
 }
 
 export interface PlaylistType {

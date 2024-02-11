@@ -4,28 +4,12 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 export default function Playlist({
-  id,
   nowPlaying,
+  playlist,
 }: {
-  id: string;
   nowPlaying: string;
+  playlist: PlaylistType & { videos: VideoType[] };
 }) {
-  const [playlist, setPlaylist] = useState<
-    PlaylistType & { videos: VideoType[] }
-  >();
-
-  const fetchPlaylist = useCallback(async () => {
-    const response = await fetch(`/api/playlist/${id}`);
-    const data = await response.json();
-    setPlaylist(data);
-  }, [id]);
-
-  useEffect(() => {
-    fetchPlaylist();
-  }, [fetchPlaylist]);
-
-  if (!playlist) return <></>;
-
   return (
     <ul className="flex flex-col gap-1">
       {playlist.videos.map((item: VideoType, i) => (

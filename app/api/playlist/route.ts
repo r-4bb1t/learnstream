@@ -52,6 +52,7 @@ export async function POST(request: Request) {
       db.doc(`videos/${video}`).set({
         ...convertedVideo,
         playlist: db.doc(`playlists/${playlist.id}`),
+        notes: [],
       });
       return convertedVideo;
     }),

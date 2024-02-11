@@ -4,13 +4,18 @@ import { useCallback, useEffect, useState } from "react";
 import cc from "classcat";
 import { CATEGORIES, CategoryType, PlaylistType } from "../type/playlist";
 import MainCard from "./card";
+import { CACHE_REVALIDATE } from "@/constant/cache";
 
 export default function Main() {
   const [category, setCategory] = useState<CategoryType>("all");
   const [playlists, setPlaylists] = useState([] as PlaylistType[]);
 
   const fetchPlaylists = useCallback(async () => {
-    const response = await fetch(`/api/playlist?category=${category}`);
+    const response = await fetch(`/api/playlist?category=${category}`, {
+      next: {
+        revalidate: CACHE_REVALIDATE.playlist,
+      },
+    });
     const data = await response.json();
     setPlaylists(data);
   }, [category]);
