@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { format, formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNowStrict } from "date-fns";
 import { ko } from "date-fns/locale";
-import { PlaylistType, VideoType } from "../type/playlist";
+import { PlaylistType } from "../type/playlist";
 import { useUserStore } from "../store/user-store";
-import cc from "classcat";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 
 export default function MainCard({
   defaultPlaylist,
@@ -15,8 +15,18 @@ export default function MainCard({
 
   const [playlist, setPlaylist] = useState(defaultPlaylist);
 
+  const handleToggle = useCallback(async () => {
+    setPlaylist({
+      ...playlist,
+      isPicked: !playlist.isPicked,
+    });
+    await fetch(`/api/playlist/${playlist.id}/pick`, {
+      method: "POST",
+    });
+  }, [playlist]);
+
   return (
-    <div>
+    <div className="[&:nth-child(4n)_button]:tooltip-left">
       <Link
         href={`/view/${playlist.videos[0]}`}
         className="group flex flex-col"
@@ -33,38 +43,39 @@ export default function MainCard({
           <div className="text-sm opacity-60">{playlist.channelTitle}</div>
         </div>
       </Link>
-      <div className="px-1 text-sm opacity-80">
-        총 {playlist.videos.length}강 | {playlist.duration} |{" "}
+      <div className="relative px-1 text-sm opacity-80">
+        총 {playlist.videos.length}강 · {playlist.duration} ·{" "}
         <span
           className="tooltip"
           data-tip={format(new Date(playlist.publishedAt), "yyyy-MM-dd")}
         >
-          {formatDistanceToNow(new Date(playlist.publishedAt), {
+          {formatDistanceToNowStrict(new Date(playlist.publishedAt), {
             locale: ko,
             addSuffix: true,
           })}
         </span>
-      </div>
-      {user && (
         <button
-          className={cc([
-            "btn btn-primary btn-sm mt-2 w-full",
-            playlist.isPicked && "btn-outline",
-          ])}
-          onClick={async () => {
-            setPlaylist({
-              ...playlist,
-              isPicked: !playlist.isPicked,
-            });
-            await fetch(`/api/playlist/${playlist.id}/pick`, {
-              method: "POST",
-            });
+          className="tooltip absolute bottom-0 right-1 text-sm font-semibold text-primary disabled:text-neutral"
+          data-tip={
+            user
+              ? playlist.isPicked
+                ? "Unpick"
+                : "Pick"
+              : "Sign in to pick this playlist"
+          }
+          onClick={async (e) => {
+            handleToggle();
           }}
           disabled={!user}
         >
-          {playlist.isPicked ? "Unpick" : "Pick"}
+          {playlist.isPicked ? (
+            <IoBookmark size={24} />
+          ) : (
+            <IoBookmarkOutline size={24} />
+          )}
+          {playlist.pickedUser?.length}
         </button>
-      )}
+      </div>
     </div>
   );
 }

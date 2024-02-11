@@ -3,6 +3,7 @@ export const CATEGORIES = [
   "computer",
   "design",
   "data",
+  "life",
   "picked",
 ] as const;
 
@@ -31,6 +32,7 @@ export interface PlaylistType {
   category: CategoryType;
   pickedUser?: string[];
   isPicked?: boolean;
+  tags: [];
 }
 
 export interface RawVideoType {

@@ -18,5 +18,5 @@ const fetchPlaylist = async (playlistId: string) => {
 
 export default async function Sidebar({ video }: { video: VideoType }) {
   const playlist = await fetchPlaylist(video.playlist);
-  return <SidebarView video={video} playlist={playlist} />;
+  return <SidebarView video={video} defaultPlaylist={playlist} />;
 }

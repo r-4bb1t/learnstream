@@ -48,7 +48,7 @@ export default function Main({
         ))}
       </div>
 
-      <div className="grid w-full max-w-5xl grid-cols-1 gap-4 overflow-auto px-4 py-12 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid w-full max-w-5xl grid-cols-1 gap-4 overflow-y-auto px-4 py-12 md:grid-cols-3 lg:grid-cols-4">
         {playlists.map((playlist) => (
           <MainCard key={playlist.id} defaultPlaylist={playlist} />
         ))}
