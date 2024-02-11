@@ -96,8 +96,8 @@ export default function Editor({
   }
 
   return (
-    <div className="relative h-full w-full py-8">
-      <div className="absolute inset-x-0 top-0 flex h-6 items-center justify-between px-4 text-xs">
+    <div className="relative h-fit w-full">
+      <div className="sticky inset-x-0 top-0 z-[5] flex h-10 items-center justify-between px-4 text-xs">
         <label className="label cursor-pointer gap-2">
           <input
             type="checkbox"

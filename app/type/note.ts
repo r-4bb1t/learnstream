@@ -9,6 +9,7 @@ export interface NoteType {
 
 export interface SharedNoteType {
   id: string;
+  preview: string;
   contents: string;
   userId: string;
   username: string;

@@ -17,8 +17,8 @@ export default function Playlist({
           <Link
             href={`/view/${item.id}`}
             className={cc([
-              "group flex items-center gap-2 border-l-2 border-l-transparent px-2 py-2",
-              item.id === nowPlaying ? " border-l-inherit bg-primary/10" : "",
+              "group flex items-center gap-2 border-l-2 border-l-transparent px-2 py-2 transition-colors ease-in-out hover:bg-primary/10",
+              item.id === nowPlaying ? " border-l-inherit bg-primary/20" : "",
             ])}
           >
             <div className="mr-1 w-5 shrink-0 text-sm font-bold">
@@ -28,7 +28,7 @@ export default function Playlist({
               <img
                 src={`https://img.youtube.com/vi/${item.id}/0.jpg`}
                 alt={"thumbnail of " + item.title}
-                className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                className="h-full w-full object-cover transition-transform ease-in-out group-hover:scale-105"
               />
               {/* <div className="absolute inset-x-0 bottom-0 h-1/2 bg-primary/50" /> */}
             </div>

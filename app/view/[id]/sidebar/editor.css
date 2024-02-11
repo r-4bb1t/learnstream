@@ -2,17 +2,18 @@
   --bn-colors-editor-background: transparent !important;
 }
 
+.viewer .bn-editor {
+  padding-inline: 0 !important;
+}
+
 [data-level="1"] {
-  --level: 1.8rem !important
-;
+  --level: 1.8rem !important;
 }
 
 [data-level="2"] {
-  --level: 1.4rem !important
-;
+  --level: 1.4rem !important;
 }
 
 [data-level="3"] {
-  --level: 1.2rem !important
-;
+  --level: 1.2rem !important;
 }

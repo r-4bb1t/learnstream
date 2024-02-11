@@ -33,7 +33,7 @@ export default function AddPlaylist() {
         <IoMdAdd />
       </div>
       <Modal opened={opened} close={() => setOpened(false)}>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 p-8">
           <div className="font-bold">Add Playlist</div>
           <label className="form-control w-full max-w-xs">
             <div className="label">

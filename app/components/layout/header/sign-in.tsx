@@ -24,11 +24,15 @@ const greet = () => {
 export default function SignIn() {
   const [opened, setOpened] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const { user, setUser } = useUserStore();
 
   const handleSignIn = useCallback(
     async (provider: "github" | "google") => {
+      setLoading(true);
       const user = await signIn(provider);
+      setLoading(false);
       if (user) {
         setUser(user);
         setError(null);
@@ -78,7 +82,7 @@ export default function SignIn() {
       {user.role === "admin" && <AddPlaylist />}
       <div className="group relative">
         <button className="flex gap-0 py-2 font-medium normal-case">
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             {greet()},<span className="ml-1 !font-black">{user.username}</span>
           </div>
           <div className="ml-2 h-6 w-6 overflow-hidden rounded-full">
@@ -93,7 +97,7 @@ export default function SignIn() {
             )}
           </div>
         </button>
-        <ul className="absolute right-0 top-full flex w-max origin-top scale-y-0 flex-col gap-2 rounded-xl bg-base-200 px-4 py-2 text-base-content transition-transform group-hover:scale-y-100">
+        <ul className="absolute right-0 top-full flex w-max origin-top scale-y-0 flex-col gap-2 rounded-xl bg-base-300 px-4 py-2 text-base-content transition-transform group-hover:scale-y-100">
           <li className="flex flex-col items-center py-2">
             <div className="h-6 w-6 overflow-hidden rounded-full">
               {user.image ? (
@@ -130,28 +134,38 @@ export default function SignIn() {
       <div className="btn btn-ghost gap-0" onClick={() => setOpened(true)}>
         Sign In
       </div>
-      <Modal opened={opened} close={() => setOpened(false)}>
-        <div className="flex flex-col gap-2">
-          {error && <div className="text-red-500">{error}</div>}
-          <button
-            className="btn justify-between bg-[#333] text-white"
-            onClick={() => {
-              handleSignIn("github");
-            }}
-          >
-            <IoLogoGithub />
-            Sign in with GitHub
-          </button>
-          <button
-            className="btn btn-outline btn-primary justify-between"
-            onClick={() => {
-              handleSignIn("google");
-            }}
-          >
-            <IoLogoGoogle />
-            Sign in with Google
-          </button>
-        </div>
+      <Modal
+        opened={opened}
+        close={() => setOpened(false)}
+        className="max-w-fit"
+      >
+        {loading ? (
+          <div className="flex h-48 w-full items-center justify-center">
+            <div className="loading loading-spinner text-primary" />
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2 p-8">
+            {error && <div className="text-red-500">{error}</div>}
+            <button
+              className="btn justify-between bg-[#333] text-white"
+              onClick={() => {
+                handleSignIn("github");
+              }}
+            >
+              <IoLogoGithub />
+              Sign in with GitHub
+            </button>
+            <button
+              className="btn btn-outline btn-primary justify-between"
+              onClick={() => {
+                handleSignIn("google");
+              }}
+            >
+              <IoLogoGoogle />
+              Sign in with Google
+            </button>
+          </div>
+        )}
       </Modal>
     </>
   );

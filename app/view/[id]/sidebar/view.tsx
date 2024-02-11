@@ -22,7 +22,7 @@ export default function SidebarView({
   video,
   playlist,
 }: {
-  video: VideoType | undefined;
+  video: VideoType;
   playlist: PlaylistType & { videos: VideoType[] };
 }) {
   const [activeTab, setActiveTab] = useState(TABS[0]);
@@ -59,7 +59,6 @@ export default function SidebarView({
   };
 
   const fetchSidebar = useCallback(async () => {
-    if (!video) return;
     await Promise.all([fetchNote(video), fetchSharedList(video)]);
   }, [video]);
 
@@ -68,7 +67,7 @@ export default function SidebarView({
   }, [fetchSidebar]);
 
   useEffect(() => {
-    if (video) fetchNote(video);
+    fetchNote(video);
   }, [video, activeTab]);
 
   const Loading = () => (
@@ -78,10 +77,10 @@ export default function SidebarView({
   );
 
   return (
-    <div className="relative flex h-full w-[360px] max-w-full shrink-0 flex-col md:h-screen md:pt-16">
+    <div className="relative flex min-h-0 shrink flex-col lg:h-screen lg:w-[400px] lg:shrink-0 lg:pt-16">
       <div
         role="tablist"
-        className="tabs tabs-bordered sticky top-0 z-10 shrink-0 bg-base-100"
+        className="tabs tabs-bordered sticky top-0 z-10 w-full md:tabs-lg lg:tabs-md"
       >
         {TABS.map((tab) => (
           <button
@@ -95,15 +94,15 @@ export default function SidebarView({
           >
             <tab.icon className="mr-1 text-primary" />
             {tab.name}
-            {tab.name === "shared" && (
+            {tab.name === "shared" && video.sharedCnt > 0 && (
               <sup className="text-xs font-bold text-primary">
-                {video?.sharedCnt}
+                {video.sharedCnt}
               </sup>
             )}
           </button>
         ))}
       </div>
-      <div className="h-full overflow-auto py-2">
+      <div className="h-full overflow-y-auto">
         {activeTab.name === "playlist" && (
           <Playlist playlist={playlist} nowPlaying={video!.id} />
         )}

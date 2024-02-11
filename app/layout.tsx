@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body className="flex h-full min-h-screen w-full flex-col">
+      <body className="flex h-screen w-full flex-col overflow-hidden">
         <Header />
         {children}
       </body>

@@ -12,23 +12,21 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
     });
   }
 
-  const notes = (
-    await Promise.all(
-      doc.data()!.notes?.map(async (note: DocumentReference) => ({
-        ...(await note.get()).data(),
-        id: note.id,
-      })),
-    )
-  ).filter((note) => note.shared);
+  const notes = await Promise.all(
+    (doc.data()!.notes || []).map(async (note: DocumentReference) => ({
+      ...(await note.get()).data(),
+      id: note.id,
+    })),
+  );
 
   const noteId = notes.find((note) => note.user === userId)?.id || null;
 
-  const data = {
+  const video = {
     ...doc.data(),
     playlist: doc.data()!.playlist.id,
     noteId,
-    sharedCnt: notes.length,
+    sharedCnt: notes.filter((note) => note.shared).length,
   };
 
-  return Response.json(data);
+  return Response.json(video);
 }

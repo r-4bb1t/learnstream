@@ -25,7 +25,7 @@ export default function MainCard({
           <img
             src={playlist.thumbnail}
             alt={"thumbnail of" + playlist.title}
-            className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform group-hover:scale-105"
           />
         </div>
         <div className="mt-2 px-1">
@@ -37,7 +37,7 @@ export default function MainCard({
         총 {playlist.videos.length}강 | {playlist.duration} |{" "}
         <span
           className="tooltip"
-          data-tooltip={format(new Date(playlist.publishedAt), "yyyy-MM-dd")}
+          data-tip={format(new Date(playlist.publishedAt), "yyyy-MM-dd")}
         >
           {formatDistanceToNow(new Date(playlist.publishedAt), {
             locale: ko,

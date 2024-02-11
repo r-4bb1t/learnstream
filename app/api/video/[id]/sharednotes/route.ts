@@ -12,7 +12,7 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
   }
 
   const notes = await Promise.all(
-    doc.data()!.notes?.map(async (note: DocumentReference) => ({
+    (doc.data()!.notes || [])?.map(async (note: DocumentReference) => ({
       ...(await note.get()).data(),
       id: note.id,
     })),
@@ -27,7 +27,8 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
 
         return {
           id: note.id,
-          contents: convertBlockToText(note.contents),
+          contents: note.contents,
+          preview: convertBlockToText(note.contents),
           userId: note.user,
           username: userData?.username || "deleted user",
           userProfile:
