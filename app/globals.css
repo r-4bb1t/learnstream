@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+.bn-container {
+  --bn-colors-editor-background: rgb(0, 0, 0) !important;
+}
+
+* {
+  font-family: "Pretendard", sans-serif;
+}
