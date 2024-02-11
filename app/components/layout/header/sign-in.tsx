@@ -137,7 +137,7 @@ export default function SignIn() {
       <Modal
         opened={opened}
         close={() => setOpened(false)}
-        className="max-w-fit"
+        className="min-w-64 max-w-fit"
       >
         {loading ? (
           <div className="flex h-48 w-full items-center justify-center">
