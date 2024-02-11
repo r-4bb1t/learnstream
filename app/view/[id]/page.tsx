@@ -1,29 +1,25 @@
-"use client";
-
-import { useCallback, useEffect, useState } from "react";
 import Sidebar from "./sidebar";
+import VideoInfo from "./info";
 import { VideoType } from "@/app/type/playlist";
-import { useUserStore } from "@/app/store/user-store";
+import { CACHE_REVALIDATE } from "@/constant/cache";
 
-export default function VideoView({
+const fetchVideo = async (id: string) => {
+  const response = await fetch(`${process.env.APP_URL}/api/video/${id}`, {
+    next: { revalidate: CACHE_REVALIDATE.video },
+  });
+  const video: VideoType = await response.json();
+
+  return video;
+};
+
+export default async function VideoView({
   params: { id },
 }: {
   params: {
     id: string;
   };
 }) {
-  const [video, setVideo] = useState<VideoType>();
-  const { user } = useUserStore();
-
-  const fetchVideo = useCallback(async () => {
-    const response = await fetch(`/api/video/${id}`);
-    const data = await response.json();
-    setVideo(data);
-  }, [id, user]);
-
-  useEffect(() => {
-    fetchVideo();
-  }, [fetchVideo]);
+  const video = await fetchVideo(id);
 
   return (
     <div className="flex h-screen w-full flex-col justify-between md:flex-row">
@@ -35,14 +31,7 @@ export default function VideoView({
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         ></iframe>
-        <div className="mt-4 px-6">
-          <h1 className="text-2xl font-bold">{video?.title}</h1>
-          <div className="py-4 text-sm opacity-80">
-            {video?.description
-              .split("\n")
-              .map((line, i) => <div key={i}>{line}</div>)}
-          </div>
-        </div>
+        <VideoInfo video={video} />
       </div>
       <Sidebar video={video} />
     </div>

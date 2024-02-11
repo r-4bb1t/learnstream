@@ -6,8 +6,7 @@ import {
   useBlockNote,
   darkDefaultTheme,
 } from "@blocknote/react";
-import "@blocknote/react/style.css";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import debounce from "lodash.debounce";
 import { NoteType } from "@/app/type/note";
 import { formatDistanceToNow, isValid } from "date-fns";
@@ -15,6 +14,9 @@ import { ko } from "date-fns/locale";
 import { IoMdCheckmark } from "react-icons/io";
 import { useUserStore } from "@/app/store/user-store";
 import SignIn from "@/app/components/layout/header/sign-in";
+
+import "@blocknote/react/style.css";
+import "./editor.css";
 
 export default function Editor({
   video,
@@ -28,8 +30,21 @@ export default function Editor({
   const [lastSaved, setLastSaved] = useState<string | null>(
     defaultNote ? defaultNote.lastSaved : null,
   );
+  const [shared, setShared] = useState(
+    defaultNote ? defaultNote.shared : false,
+  );
 
   const { user } = useUserStore();
+
+  const toggleShare = useCallback(async () => {
+    if (!noteId) return;
+    setSaving(true);
+    setShared((s) => !s);
+    await fetch(`/api/note/${noteId}/share`, {
+      method: "PATCH",
+    });
+    setSaving(false);
+  }, [noteId]);
 
   const handleSave = useMemo(
     () =>
@@ -58,7 +73,6 @@ export default function Editor({
             }),
           });
           const { id } = await res.json();
-          alert(id);
           setNoteId(id);
         }
         setSaving(false);
@@ -82,26 +96,38 @@ export default function Editor({
   }
 
   return (
-    <div className="h-full w-full">
-      <div className="flex items-center justify-end gap-1 p-2 text-xs">
-        {saving ? (
-          <>
-            <div className="loading loading-ring loading-xs" />
-            Saving...
-          </>
-        ) : (
-          lastSaved &&
-          isValid(new Date(lastSaved)) && (
+    <div className="relative h-full w-full py-8">
+      <div className="absolute inset-x-0 top-0 flex h-6 items-center justify-between px-4 text-xs">
+        <label className="label cursor-pointer gap-2">
+          <input
+            type="checkbox"
+            className="toggle toggle-xs checked:toggle-primary"
+            defaultChecked={shared}
+            onChange={toggleShare}
+            disabled={!noteId}
+          />
+          <span className="label-text">{shared ? "Shared" : "Private"}</span>
+        </label>
+        <div className="flex items-center gap-1">
+          {saving ? (
             <>
-              <IoMdCheckmark />
-              {formatDistanceToNow(new Date(lastSaved), {
-                addSuffix: true,
-                locale: ko,
-              })}
-              에 저장됨
+              <div className="loading loading-ring loading-xs" />
+              Saving...
             </>
-          )
-        )}
+          ) : (
+            lastSaved &&
+            isValid(new Date(lastSaved)) && (
+              <>
+                <IoMdCheckmark />
+                {formatDistanceToNow(new Date(lastSaved), {
+                  addSuffix: true,
+                  locale: ko,
+                })}
+                에 저장됨
+              </>
+            )
+          )}
+        </div>
       </div>
       <BlockNoteView editor={editor} theme={darkDefaultTheme} />
     </div>

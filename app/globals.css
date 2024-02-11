@@ -4,10 +4,6 @@
 
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
-.bn-container {
-  --bn-colors-editor-background: transparent !important;
-}
-
 * {
   font-family: "Pretendard", sans-serif;
 }

@@ -4,6 +4,7 @@ export interface NoteType {
   user: string;
   video: string;
   lastSaved: string;
+  shared: boolean;
 }
 
 export interface SharedNoteType {

@@ -1,139 +1,22 @@
-"use client";
-
-import { useCallback, useEffect, useState } from "react";
-import Playlist from "./playlist";
-import Editor from "@/app/view/[id]/sidebar/editor";
-import cc from "classcat";
-
-import { FiList, FiEdit3 } from "react-icons/fi";
-import { RiPlayList2Fill } from "react-icons/ri";
-import Share from "./shared";
 import { PlaylistType, VideoType } from "@/app/type/playlist";
-import { NoteType, SharedNoteType } from "@/app/type/note";
+import SidebarView from "./view";
 import { CACHE_REVALIDATE } from "@/constant/cache";
 
-const TABS = [
-  { name: "playlist", icon: RiPlayList2Fill },
-  { name: "note", icon: FiEdit3 },
-  { name: "shared", icon: FiList },
-];
-
-export default function Sidebar({ video }: { video: VideoType | undefined }) {
-  const [activeTab, setActiveTab] = useState(TABS[0]);
-
-  const [isSharedListLoading, setIsSharedListLoading] = useState(true);
-  const [isNoteLoading, setIsNoteLoading] = useState(true);
-  const [isPlaylistLoading, setIsPlaylistLoading] = useState(true);
-
-  const [note, setNote] = useState<NoteType | null>(null);
-  const [playlist, setPlaylist] = useState<
-    PlaylistType & { videos: VideoType[] }
-  >();
-  const [sharedList, setSharedList] = useState<SharedNoteType[]>([]);
-
-  const fetchPlaylist = async (video: VideoType) => {
-    setIsPlaylistLoading(true);
-    const response = await fetch(`/api/playlist/${video.playlist}`, {
+const fetchPlaylist = async (playlistId: string) => {
+  const response = await fetch(
+    `${process.env.APP_URL}/api/playlist/${playlistId}`,
+    {
       next: {
         revalidate: CACHE_REVALIDATE.playlistOfVideo,
       },
-    });
-    const data = await response.json();
-    setPlaylist(data);
-    setIsPlaylistLoading(false);
-  };
-
-  const fetchNote = async (video: VideoType) => {
-    if (!video.noteId) {
-      setNote(null);
-      setIsNoteLoading(false);
-      return;
-    }
-    setIsNoteLoading(true);
-    const res = await fetch(`/api/note/${video.noteId}`);
-    const note = await res.json();
-    setNote(note);
-    setIsNoteLoading(false);
-  };
-
-  const fetchSharedList = async (video: VideoType) => {
-    setIsSharedListLoading(true);
-    const res = await fetch(`/api/video/${video.id}/sharednotes`, {
-      next: {
-        revalidate: CACHE_REVALIDATE.sharedNotesOfVideo,
-      },
-    });
-    const data = await res.json();
-    setSharedList(data.sharedNotes);
-    setIsSharedListLoading(false);
-  };
-
-  const fetchSidebar = useCallback(async () => {
-    if (!video) return;
-    await Promise.all([
-      fetchPlaylist(video),
-      fetchNote(video),
-      fetchSharedList(video),
-    ]);
-  }, [video]);
-
-  useEffect(() => {
-    fetchSidebar();
-  }, [fetchSidebar]);
-
-  const Loading = () => (
-    <div className="absolute inset-0 z-[5] flex items-center justify-center bg-base-100/50">
-      <div className="loading loading-spinner text-primary" />
-    </div>
+    },
   );
+  const playlist: PlaylistType & { videos: VideoType[] } =
+    await response.json();
+  return playlist;
+};
 
-  return (
-    <div className="relative flex h-full w-[360px] max-w-full shrink-0 flex-col md:h-screen md:pt-16">
-      <div
-        role="tablist"
-        className="tabs tabs-bordered sticky top-0 z-10 shrink-0 bg-base-100"
-      >
-        {TABS.map((tab) => (
-          <button
-            key={tab.name}
-            role="tab"
-            className={cc([
-              "tab-lifted tab relative z-10 capitalize",
-              activeTab === tab ? "tab-active" : "",
-            ])}
-            onClick={() => setActiveTab(tab)}
-          >
-            <tab.icon className="mr-1 text-primary" />
-            {tab.name}
-            {tab.name === "shared" && (
-              <sup className="text-xs font-bold text-primary">
-                {video?.sharedCnt}
-              </sup>
-            )}
-          </button>
-        ))}
-      </div>
-      <div className="h-full overflow-auto py-2">
-        {activeTab.name === "playlist" &&
-          (isPlaylistLoading ? (
-            <Loading />
-          ) : (
-            <Playlist playlist={playlist!} nowPlaying={video!.id} />
-          ))}
-
-        {activeTab.name === "note" &&
-          (isNoteLoading ? (
-            <Loading />
-          ) : (
-            <Editor video={video!.id} defaultNote={note} />
-          ))}
-        {activeTab.name === "shared" &&
-          (isSharedListLoading ? (
-            <Loading />
-          ) : (
-            <Share sharedList={sharedList} />
-          ))}
-      </div>
-    </div>
-  );
+export default async function Sidebar({ video }: { video: VideoType }) {
+  const playlist = await fetchPlaylist(video.playlist);
+  return <SidebarView video={video} playlist={playlist} />;
 }

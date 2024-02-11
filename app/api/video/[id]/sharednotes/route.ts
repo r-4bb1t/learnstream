@@ -19,21 +19,23 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
   );
 
   const sharedNotes = await Promise.all(
-    notes.map(async (note) => {
-      const userDoc = await db.doc(`user/${note.user}`).get();
-      const userData = userDoc.data();
+    notes
+      .filter((note) => note.shared)
+      .map(async (note) => {
+        const userDoc = await db.doc(`user/${note.user}`).get();
+        const userData = userDoc.data();
 
-      return {
-        id: note.id,
-        contents: convertBlockToText(note.contents),
-        userId: note.user,
-        username: userData?.username || "deleted user",
-        userProfile:
-          userData?.image ||
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9GSLnfE_4HXJkEft7W00jJDqp1u8gj0PcK8H8njYv1Q&s",
-        lastSaved: (note.lastSaved as Timestamp).toDate().toISOString(),
-      };
-    }),
+        return {
+          id: note.id,
+          contents: convertBlockToText(note.contents),
+          userId: note.user,
+          username: userData?.username || "deleted user",
+          userProfile:
+            userData?.image ||
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9GSLnfE_4HXJkEft7W00jJDqp1u8gj0PcK8H8njYv1Q&s",
+          lastSaved: (note.lastSaved as Timestamp).toDate().toISOString(),
+        };
+      }),
   );
 
   return Response.json({
