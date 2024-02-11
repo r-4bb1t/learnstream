@@ -45,10 +45,27 @@ export default function SignIn() {
     await signOut();
   };
 
+  const handleReissue = useCallback(
+    async (rawUserData: any) => {
+      const res = await (
+        await fetch(`/api/auth/sign-in`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(rawUserData),
+          cache: "no-store",
+        })
+      ).json();
+      setUser(res);
+    },
+    [setUser],
+  );
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((rawUserData) => {
       if (rawUserData) {
-        setUser(convertUserType(rawUserData));
+        handleReissue(rawUserData);
       } else {
         setUser(null);
       }
