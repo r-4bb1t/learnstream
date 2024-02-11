@@ -1,5 +1,4 @@
 import { PlaylistType, VideoType } from "@/app/type/playlist";
-import { PLAYLIST } from "@/dummy";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
