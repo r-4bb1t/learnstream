@@ -4,19 +4,20 @@ import { useCallback, useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import Modal from "../modal";
 import { CATEGORIES, CategoryType } from "@/app/type/playlist";
+import { revalidate } from "./action";
 
 export default function AddPlaylist() {
   const [opened, setOpened] = useState(false);
-  const [category, setCategory] = useState<CategoryType>("web");
+  const [category, setCategory] = useState<CategoryType>(CATEGORIES[0]);
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
 
   const handleAddPlaylist = useCallback(async () => {
-    const response = await fetch("/api/playlist", {
+    await fetch("/api/playlist", {
       method: "POST",
       body: JSON.stringify({ id, title, category }),
     });
-    const data = await response.json();
+    revalidate();
   }, [id, title]);
 
   useEffect(() => {

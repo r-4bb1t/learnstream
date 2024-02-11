@@ -8,12 +8,12 @@ import { CACHE_REVALIDATE } from "@/constant/cache";
 import { useUserStore } from "../store/user-store";
 
 export default function Main({
-  defaultPlaylist,
+  defaultPlaylists,
 }: {
-  defaultPlaylist: PlaylistType;
+  defaultPlaylists: PlaylistType[];
 }) {
   const [category, setCategory] = useState<CategoryType>("all");
-  const [playlists, setPlaylists] = useState([] as PlaylistType[]);
+  const [playlists, setPlaylists] = useState(defaultPlaylists);
 
   const { user } = useUserStore();
 

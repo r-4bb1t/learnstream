@@ -11,7 +11,7 @@ import {
   IoLogOutOutline,
 } from "react-icons/io5";
 import AddPlaylist from "./add-playlist";
-import { deleteCookie } from "./delete-cookie";
+import { deleteCookie } from "./action";
 import { convertUserType } from "@/app/lib/convert-user-type";
 
 const greet = () => {

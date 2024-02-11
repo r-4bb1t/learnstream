@@ -7,6 +7,7 @@ const fetchPlaylists = async () => {
     {
       next: {
         revalidate: CACHE_REVALIDATE.playlist,
+        tags: ["playlist"],
       },
     },
   );
@@ -19,7 +20,7 @@ export default async function Home() {
 
   return (
     <main className="h-full min-h-full w-full">
-      <Main defaultPlaylist={playlists} />
+      <Main defaultPlaylists={playlists} />
     </main>
   );
 }

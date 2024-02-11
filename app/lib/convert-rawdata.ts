@@ -17,7 +17,7 @@ export const convertPlaylist = (rawPlaylist: RawPlaylistType): PlaylistType => {
     videos: rawPlaylist.items.map(
       (rawVideo) => rawVideo.snippet.resourceId.videoId,
     ),
-    category: "web",
+    category: "computer",
     pickedUser: [],
   };
 
