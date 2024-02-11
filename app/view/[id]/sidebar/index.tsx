@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Playlist from "./playlist";
 import Editor from "@/app/components/editor";
 import cc from "classcat";
@@ -8,6 +8,7 @@ import cc from "classcat";
 import { FiList, FiEdit3 } from "react-icons/fi";
 import { RiPlayList2Fill } from "react-icons/ri";
 import Share from "./share";
+import { VideoType } from "@/app/type/playlist";
 
 const TABS = [
   { name: "playlist", icon: RiPlayList2Fill },
@@ -15,8 +16,20 @@ const TABS = [
   { name: "share", icon: FiList },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ id }: { id: string }) {
   const [activeTab, setActiveTab] = useState(TABS[0]);
+  const [video, setVideo] = useState<VideoType>();
+
+  const fetchVideo = useCallback(async () => {
+    const response = await fetch(`/api/video/${id}`);
+    const data = await response.json();
+    setVideo(data);
+  }, [id]);
+
+  useEffect(() => {
+    fetchVideo();
+  }, [fetchVideo]);
+
   return (
     <div className="relative flex h-screen w-[460px] flex-col overflow-auto pt-16">
       <div
@@ -38,7 +51,9 @@ export default function Sidebar() {
           </button>
         ))}
       </div>
-      {activeTab.name === "playlist" && <Playlist />}
+      {video && activeTab.name === "playlist" && (
+        <Playlist id={video.playlist} />
+      )}
       {activeTab.name === "note" && (
         <div className="h-full py-2">
           <Editor />

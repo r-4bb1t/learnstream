@@ -23,7 +23,7 @@ export default function VideoView({
           </h1>
         </div>
       </div>
-      <Sidebar />
+      <Sidebar id={id} />
     </div>
   );
 }

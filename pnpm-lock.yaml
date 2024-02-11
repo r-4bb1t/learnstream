@@ -11,9 +11,15 @@ dependencies:
   '@blocknote/react':
     specifier: ^0.11.2
     version: 0.11.2(@tiptap/pm@2.2.2)(@types/react@18.2.55)(react-dom@18.2.0)(react@18.2.0)
+  '@types/date-fns':
+    specifier: ^2.6.0
+    version: 2.6.0
   classcat:
     specifier: ^5.0.4
     version: 5.0.4
+  date-fns:
+    specifier: ^3.3.1
+    version: 3.3.1
   firebase:
     specifier: ^10.8.0
     version: 10.8.0
@@ -1368,6 +1374,13 @@ packages:
       '@types/node': 20.11.17
     dev: false
 
+  /@types/date-fns@2.6.0:
+    resolution: {integrity: sha512-9DSw2ZRzV0Tmpa6PHHJbMcZn79HHus+BBBohcOaDzkK/G3zMjDUDYjJIWBFLbkh+1+/IOS0A59BpQfdr37hASg==}
+    deprecated: This is a stub types definition for date-fns (https://github.com/date-fns/date-fns). date-fns provides its own type definitions, so you don't need @types/date-fns installed!
+    dependencies:
+      date-fns: 3.3.1
+    dev: false
+
   /@types/debug@4.1.12:
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
     dependencies:
@@ -2109,6 +2122,10 @@ packages:
 
   /dash-get@1.0.2:
     resolution: {integrity: sha512-4FbVrHDwfOASx7uQVxeiCTo7ggSdYZbqs8lH+WU6ViypPlDbe9y6IP5VVUDQBv9DcnyaiPT5XT0UWHgJ64zLeQ==}
+    dev: false
+
+  /date-fns@3.3.1:
+    resolution: {integrity: sha512-y8e109LYGgoQDveiEBD3DYXKba1jWf5BA8YU1FL5Tvm0BTdEfy54WLCwnuYWZNnzzvALy/QQ4Hov+Q9RVRv+Zw==}
     dev: false
 
   /debug@3.2.7:

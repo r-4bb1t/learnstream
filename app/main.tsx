@@ -1,17 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import cc from "classcat";
 import Link from "next/link";
-
-const CATEGORY = ["web", "mobile", "desktop", "game"];
+import { CATEGORIES, CategoryType, PlaylistType } from "./type/playlist";
+import { format, formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 
 export default function Main() {
-  const [category, setCategory] = useState("web");
+  const [category, setCategory] = useState<CategoryType>("all");
+  const [playlists, setPlaylists] = useState([] as PlaylistType[]);
+
+  const fetchPlaylists = useCallback(async () => {
+    const response = await fetch(`/api/playlist?category=${category}`);
+    const data = await response.json();
+    setPlaylists(data);
+  }, [category]);
+
+  useEffect(() => {
+    fetchPlaylists();
+  }, [fetchPlaylists]);
+
   return (
     <div className="flex h-full w-full flex-col items-center pt-16">
       <div className="flex w-full justify-center gap-2">
-        {CATEGORY.map((c) => (
+        {CATEGORIES.map((c) => (
           <button
             key={c}
             className={cc([
@@ -25,20 +38,41 @@ export default function Main() {
         ))}
       </div>
 
-      <div className="mt-20 grid w-full max-w-5xl grid-cols-4">
-        <Link href="/view/8kJwTrs6e-4" className="group flex flex-col">
-          <div className="aspect-video w-full overflow-hidden rounded-lg">
-            <img
-              src="https://img.youtube.com/vi/8kJwTrs6e-4/0.jpg"
-              alt="thumbnail"
-              className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-            />
-          </div>
-          <div className="px-1 py-2">
-            <div className="font-bold">입문자를 위한 HTML 기초 강의</div>
-            <div className="text-sm opacity-80">유노코딩 | 총 17강</div>
-          </div>
-        </Link>
+      <div className="mt-20 grid w-full max-w-5xl grid-cols-4 gap-4">
+        {playlists.map((playlist) => [
+          <Link
+            href={`/view/${playlist.videos[0]}`}
+            className="group flex flex-col"
+            key={playlist.id}
+          >
+            <div className="aspect-video w-full overflow-hidden rounded-lg">
+              <img
+                src={playlist.thumbnail}
+                alt="thumbnail"
+                className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+              />
+            </div>
+            <div className="px-1 py-2">
+              <div className="font-bold">{playlist.title}</div>
+              <div className="text-sm opacity-60">{playlist.channelTitle}</div>
+              <div className="text-sm opacity-80">
+                총 {playlist.videos.length}강 | {playlist.duration} |{" "}
+                <span
+                  className="tooltip"
+                  data-tooltip={format(
+                    new Date(playlist.publishedAt),
+                    "yyyy-MM-dd",
+                  )}
+                >
+                  {formatDistanceToNow(new Date(playlist.publishedAt), {
+                    locale: ko,
+                    addSuffix: true,
+                  })}
+                </span>
+              </div>
+            </div>
+          </Link>,
+        ])}
       </div>
     </div>
   );
