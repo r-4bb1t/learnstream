@@ -6,7 +6,11 @@ import { CATEGORIES, CategoryType, PlaylistType } from "../type/playlist";
 import MainCard from "./card";
 import { CACHE_REVALIDATE } from "@/constant/cache";
 
-export default function Main() {
+export default function Main({
+  defaultPlaylist,
+}: {
+  defaultPlaylist: PlaylistType;
+}) {
   const [category, setCategory] = useState<CategoryType>("all");
   const [playlists, setPlaylists] = useState([] as PlaylistType[]);
 

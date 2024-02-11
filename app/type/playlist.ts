@@ -1,4 +1,4 @@
-export const CATEGORIES = ["all", "web", "design", "picked"] as const;
+export const CATEGORIES = ["all", "web", "design", "data", "picked"] as const;
 
 export type CategoryType = ArrayElement<typeof CATEGORIES>;
 
