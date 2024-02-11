@@ -1,7 +1,6 @@
 import { PlaylistType, VideoType } from "@/app/type/playlist";
 import cc from "classcat";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
 
 export default function Playlist({
   nowPlaying,

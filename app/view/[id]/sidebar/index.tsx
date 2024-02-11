@@ -1,11 +1,15 @@
 import { PlaylistType, VideoType } from "@/app/type/playlist";
 import SidebarView from "./view";
 import { CACHE_REVALIDATE } from "@/constant/cache";
+import { cookies } from "next/headers";
 
 const fetchPlaylist = async (playlistId: string) => {
+  const userId = cookies().get("learnstream-user")?.value;
   const response = await fetch(
     `${process.env.APP_URL}/api/playlist/${playlistId}`,
     {
+      credentials: "include",
+      headers: { cookie: `learnstream-user=${userId}` },
       next: {
         revalidate: CACHE_REVALIDATE.playlistOfVideo,
       },

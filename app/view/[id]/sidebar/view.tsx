@@ -47,9 +47,14 @@ export default function SidebarView({
       return;
     }
     setIsNoteLoading(true);
-    const res = await fetch(`/api/note/${video.noteId}`);
-    const note = await res.json();
-    setNote(note);
+    try {
+      const res = await fetch(`/api/note/${video.noteId}`);
+      if (!res.ok) throw new Error("Failed to fetch note");
+      const note = await res.json();
+      setNote(note);
+    } catch (e) {
+      setNote(null);
+    }
     setIsNoteLoading(false);
   };
 
