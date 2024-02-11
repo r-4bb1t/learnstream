@@ -32,7 +32,7 @@ export interface PlaylistType {
   category: CategoryType;
   pickedUser?: string[];
   isPicked?: boolean;
-  tags: [];
+  tags: string[];
 }
 
 export interface RawVideoType {

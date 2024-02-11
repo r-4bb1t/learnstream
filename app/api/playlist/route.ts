@@ -16,8 +16,12 @@ import { DocumentReference } from "firebase-admin/firestore";
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
-  const playlist: { id: string; title: string; category: CategoryType } =
-    await request.json();
+  const playlist: {
+    id: string;
+    title: string;
+    category: CategoryType;
+    tags: string[];
+  } = await request.json();
 
   const docRef = db.doc(`playlists/${playlist.id}`);
   const doc = await docRef.get();
@@ -63,6 +67,7 @@ export async function POST(request: Request) {
     title: playlist.title,
     category: playlist.category,
     duration: addDuration(videos.map((v) => v!.duration)),
+    tags: playlist.tags,
   };
 
   await docRef.set({
