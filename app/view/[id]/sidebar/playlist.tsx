@@ -1,8 +1,15 @@
 import { PlaylistType, VideoType } from "@/app/type/playlist";
+import cc from "classcat";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-export default function Playlist({ id }: { id: string }) {
+export default function Playlist({
+  id,
+  nowPlaying,
+}: {
+  id: string;
+  nowPlaying: string;
+}) {
   const [playlist, setPlaylist] = useState<
     PlaylistType & { videos: VideoType[] }
   >();
@@ -20,13 +27,19 @@ export default function Playlist({ id }: { id: string }) {
   if (!playlist) return <></>;
 
   return (
-    <ul className="flex flex-col py-2">
-      {playlist.videos.map((item: VideoType) => (
+    <ul className="flex flex-col gap-1">
+      {playlist.videos.map((item: VideoType, i) => (
         <li key={item.id}>
           <Link
             href={`/view/${item.id}`}
-            className="group flex items-center gap-1 px-2 py-1"
+            className={cc([
+              "group flex items-center gap-2 border-l-2 border-l-transparent px-2 py-2",
+              item.id === nowPlaying ? " border-l-inherit bg-primary/10" : "",
+            ])}
           >
+            <div className="mr-1 w-5 shrink-0 text-sm font-bold">
+              {(i + 1).toString().padStart(2, "0")}
+            </div>
             <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg">
               <img
                 src={`https://img.youtube.com/vi/${item.id}/0.jpg`}

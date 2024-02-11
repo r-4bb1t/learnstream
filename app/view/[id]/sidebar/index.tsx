@@ -42,7 +42,7 @@ export default function Sidebar({ video }: { video: VideoType | undefined }) {
       </div>
       <div className="h-full overflow-auto py-2">
         {video && activeTab.name === "playlist" && (
-          <Playlist id={video.playlist} />
+          <Playlist id={video.playlist} nowPlaying={video.id} />
         )}
         {activeTab.name === "note" && <Editor />}
         {activeTab.name === "share" && <Share />}

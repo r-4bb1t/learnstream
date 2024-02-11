@@ -25,7 +25,7 @@ export default function VideoView({
 
   return (
     <div className="flex h-screen w-full flex-col justify-between md:flex-row">
-      <div className="w-full pt-16">
+      <div className="w-full overflow-auto pt-16">
         <iframe
           className="aspect-video w-full"
           src={`https://www.youtube.com/embed/${id}`}
@@ -33,9 +33,14 @@ export default function VideoView({
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         ></iframe>
-        {/* <div className="mt-4 px-6">
-          <h1 className="text-2xl font-bold">title</h1>
-        </div> */}
+        <div className="mt-4 px-6">
+          <h1 className="text-2xl font-bold">{video?.title}</h1>
+          <div className="py-4 text-sm opacity-80">
+            {video?.description
+              .split("\n")
+              .map((line, i) => <div key={i}>{line}</div>)}
+          </div>
+        </div>
       </div>
       <Sidebar video={video} />
     </div>
