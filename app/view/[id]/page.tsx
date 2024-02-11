@@ -26,7 +26,7 @@ export default async function VideoView({
   const video = await fetchVideo(id);
 
   return (
-    <div className="flex h-screen w-full flex-col lg:flex-row">
+    <div className="flex h-[100dvh] w-full flex-col lg:flex-row">
       <div className="w-full shrink-0 pt-16 lg:shrink lg:overflow-auto">
         <iframe
           className="aspect-video w-full"

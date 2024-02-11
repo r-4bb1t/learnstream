@@ -77,7 +77,7 @@ export default function SidebarView({
   );
 
   return (
-    <div className="relative flex min-h-0 shrink flex-col lg:h-screen lg:w-[400px] lg:shrink-0 lg:pt-16">
+    <div className="relative flex min-h-0 shrink flex-col lg:h-[100dvh] lg:w-[400px] lg:shrink-0 lg:pt-16">
       <div
         role="tablist"
         className="tabs tabs-bordered sticky top-0 z-10 w-full md:tabs-lg lg:tabs-md"
