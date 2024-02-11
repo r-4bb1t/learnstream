@@ -2,7 +2,12 @@
 
 import { use, useCallback, useEffect, useState } from "react";
 import cc from "classcat";
-import { CATEGORIES, CategoryType, PlaylistType } from "../type/playlist";
+import {
+  CATEGORIES,
+  CATEGORY_EMOJI,
+  CategoryType,
+  PlaylistType,
+} from "../type/playlist";
 import MainCard from "./card";
 import { CACHE_REVALIDATE } from "@/constant/cache";
 import { useUserStore } from "../store/user-store";
@@ -43,7 +48,7 @@ export default function Main({
             ])}
             onClick={() => setCategory(c)}
           >
-            {c}
+            {CATEGORY_EMOJI[c]} {c}
           </button>
         ))}
       </div>

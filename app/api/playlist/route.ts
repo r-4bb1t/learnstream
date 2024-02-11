@@ -40,27 +40,35 @@ export async function POST(request: Request) {
     )
   ).json();
 
-  const videos = await Promise.all(
-    convertPlaylist(rawPlaylist).videos.map(async (video) => {
-      const rawVideo: RawVideoType = await (
-        await fetch(
-          `https://youtube.googleapis.com/youtube/v3/videos?key=${process.env.YOUTUBE_API_KEY}&id=${video}&part=contentDetails&part=snippet`,
-        )
-      ).json();
-      if (!rawVideo.items[0]) return;
-      const convertedVideo: VideoType = {
-        ...convertVideo(rawVideo),
-        duration: convertDuration(rawVideo.items[0].contentDetails.duration),
-        playlist: playlist.id,
-      };
-      db.doc(`videos/${video}`).set({
-        ...convertedVideo,
-        playlist: db.doc(`playlists/${playlist.id}`),
-        notes: [],
-      });
-      return convertedVideo;
-    }),
-  );
+  const videos = (
+    await Promise.all(
+      convertPlaylist(rawPlaylist).videos.map(async (video) => {
+        try {
+          const rawVideo: RawVideoType = await (
+            await fetch(
+              `https://youtube.googleapis.com/youtube/v3/videos?key=${process.env.YOUTUBE_API_KEY}&id=${video}&part=contentDetails&part=snippet`,
+            )
+          ).json();
+          if (!rawVideo.items[0]) return;
+          const convertedVideo: VideoType = {
+            ...convertVideo(rawVideo),
+            duration: convertDuration(
+              rawVideo.items[0].contentDetails.duration,
+            ),
+            playlist: playlist.id,
+          };
+          db.doc(`videos/${video}`).set({
+            ...convertedVideo,
+            playlist: db.doc(`playlists/${playlist.id}`),
+            notes: [],
+          });
+          return convertedVideo;
+        } catch (e) {
+          return null;
+        }
+      }),
+    )
+  ).filter((v) => v);
 
   const convertedPlaylist: PlaylistType = {
     ...convertPlaylist(rawPlaylist),

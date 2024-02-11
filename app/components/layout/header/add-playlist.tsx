@@ -11,11 +11,12 @@ export default function AddPlaylist() {
   const [category, setCategory] = useState<CategoryType>(CATEGORIES[1]);
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
 
   const handleAddPlaylist = useCallback(async () => {
     await fetch("/api/playlist", {
       method: "POST",
-      body: JSON.stringify({ id, title, category }),
+      body: JSON.stringify({ id, title, category, tags: [] }),
     });
     revalidate();
   }, [id, title]);

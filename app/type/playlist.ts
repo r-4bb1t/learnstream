@@ -7,6 +7,15 @@ export const CATEGORIES = [
   "picked",
 ] as const;
 
+export const CATEGORY_EMOJI = {
+  all: "🌐",
+  computer: "💻",
+  design: "🎨",
+  data: "📊",
+  life: "🏞",
+  picked: "🌟",
+} as const;
+
 export type CategoryType = ArrayElement<typeof CATEGORIES>;
 
 export interface VideoType {
