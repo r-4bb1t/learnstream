@@ -13,6 +13,7 @@ import {
   VideoType,
 } from "@/app/type/playlist";
 import { DocumentReference } from "firebase-admin/firestore";
+import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   const playlist: { id: string; title: string; category: CategoryType } =
@@ -72,19 +73,26 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
+  const userId = cookies().get("learnstream-user")?.value;
   const category = new URL(request.url).searchParams.get("category");
   const playlists: PlaylistType[] = [];
   const querySnapshot =
     category === "all"
       ? await db.collection("playlists").get()
-      : await db
-          .collection("playlists")
-          .where("category", "==", category)
-          .get();
+      : category === "picked"
+        ? await db
+            .collection("playlists")
+            .where("pickedUser", "array-contains", userId)
+            .get()
+        : await db
+            .collection("playlists")
+            .where("category", "==", category)
+            .get();
   querySnapshot.forEach((doc) => {
     playlists.push({
       ...(doc.data() as PlaylistType),
       videos: doc.data().videos.map((v: DocumentReference) => v.id),
+      isPicked: doc.data().pickedUser.includes(userId),
     });
   });
 

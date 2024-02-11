@@ -1,4 +1,8 @@
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
 import Sidebar from "./sidebar";
+import { VideoType } from "@/app/type/playlist";
 
 export default function VideoView({
   params: { id },
@@ -7,6 +11,18 @@ export default function VideoView({
     id: string;
   };
 }) {
+  const [video, setVideo] = useState<VideoType>();
+
+  const fetchVideo = useCallback(async () => {
+    const response = await fetch(`/api/video/${id}`);
+    const data = await response.json();
+    setVideo(data);
+  }, [id]);
+
+  useEffect(() => {
+    fetchVideo();
+  }, [fetchVideo]);
+
   return (
     <div className="flex h-screen w-full flex-col justify-between md:flex-row">
       <div className="w-full pt-16">
@@ -21,7 +37,7 @@ export default function VideoView({
           <h1 className="text-2xl font-bold">title</h1>
         </div> */}
       </div>
-      <Sidebar id={id} />
+      <Sidebar video={video} />
     </div>
   );
 }

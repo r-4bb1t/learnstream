@@ -20,12 +20,12 @@ export default function Playlist({ id }: { id: string }) {
   if (!playlist) return <></>;
 
   return (
-    <ul className="flex flex-col gap-1 py-2">
+    <ul className="flex flex-col py-2">
       {playlist.videos.map((item: VideoType) => (
         <li key={item.id}>
           <Link
             href={`/view/${item.id}`}
-            className="group flex items-center gap-1 px-2"
+            className="group flex items-center gap-1 px-2 py-1"
           >
             <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg">
               <img
@@ -35,8 +35,8 @@ export default function Playlist({ id }: { id: string }) {
               />
               {/* <div className="absolute inset-x-0 bottom-0 h-1/2 bg-primary/50" /> */}
             </div>
-            <div className="px-1 py-2">
-              <div className="text-sm font-bold">{item.title}</div>
+            <div className="px-1">
+              <div className="line-clamp-2 text-sm font-bold">{item.title}</div>
               <div className="text-xs opacity-80">{item.duration}</div>
             </div>
           </Link>

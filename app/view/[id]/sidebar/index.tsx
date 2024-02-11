@@ -16,22 +16,11 @@ const TABS = [
   { name: "share", icon: FiList },
 ];
 
-export default function Sidebar({ id }: { id: string }) {
+export default function Sidebar({ video }: { video: VideoType | undefined }) {
   const [activeTab, setActiveTab] = useState(TABS[0]);
-  const [video, setVideo] = useState<VideoType>();
-
-  const fetchVideo = useCallback(async () => {
-    const response = await fetch(`/api/video/${id}`);
-    const data = await response.json();
-    setVideo(data);
-  }, [id]);
-
-  useEffect(() => {
-    fetchVideo();
-  }, [fetchVideo]);
 
   return (
-    <div className="relative flex h-full w-[460px] max-w-full flex-col overflow-auto md:h-screen md:pt-16">
+    <div className="relative flex h-full w-[460px] max-w-full flex-col md:h-screen md:pt-16">
       <div
         role="tablist"
         className="tabs tabs-bordered sticky top-0 z-10 shrink-0 bg-base-100"
@@ -46,20 +35,18 @@ export default function Sidebar({ id }: { id: string }) {
             ])}
             onClick={() => setActiveTab(tab)}
           >
-            <tab.icon className="mr-1" />
+            <tab.icon className="mr-1 text-primary" />
             {tab.name}
           </button>
         ))}
       </div>
-      {video && activeTab.name === "playlist" && (
-        <Playlist id={video.playlist} />
-      )}
-      {activeTab.name === "note" && (
-        <div className="h-full py-2">
-          <Editor />
-        </div>
-      )}
-      {activeTab.name === "share" && <Share />}
+      <div className="h-full overflow-auto py-2">
+        {video && activeTab.name === "playlist" && (
+          <Playlist id={video.playlist} />
+        )}
+        {activeTab.name === "note" && <Editor />}
+        {activeTab.name === "share" && <Share />}
+      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-export const CATEGORIES = ["all", "web", "design"] as const;
+export const CATEGORIES = ["all", "web", "design", "picked"] as const;
 
 export type CategoryType = ArrayElement<typeof CATEGORIES>;
 
@@ -21,6 +21,8 @@ export interface PlaylistType {
   duration: string;
   videos: string[];
   category: CategoryType;
+  pickedUser?: string[];
+  isPicked?: boolean;
 }
 
 export interface RawVideoType {
