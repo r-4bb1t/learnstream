@@ -8,7 +8,7 @@ import { revalidate } from "./action";
 
 export default function AddPlaylist() {
   const [opened, setOpened] = useState(false);
-  const [category, setCategory] = useState<CategoryType>(CATEGORIES[0]);
+  const [category, setCategory] = useState<CategoryType>(CATEGORIES[1]);
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
 

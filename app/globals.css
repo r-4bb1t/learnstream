@@ -20,3 +20,17 @@
 *::-webkit-scrollbar-track {
   background: oklch(var(--b1));
 }
+
+.link {
+  color: oklch(var(--p));
+  text-decoration: underline;
+}
+
+.hashtag {
+  color: oklch(var(--pc));
+  padding: 0 6px;
+  border-radius: 100px;
+  text-decoration: none;
+  background-color: oklch(var(--p));
+  font-weight: 500;
+}
