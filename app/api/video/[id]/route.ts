@@ -12,12 +12,14 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
     });
   }
 
-  const notes = await Promise.all(
-    doc.data()!.notes?.map(async (note: DocumentReference) => ({
-      ...(await note.get()).data(),
-      id: note.id,
-    })),
-  );
+  const notes = (
+    await Promise.all(
+      doc.data()!.notes?.map(async (note: DocumentReference) => ({
+        ...(await note.get()).data(),
+        id: note.id,
+      })),
+    )
+  ).filter((note) => note.shared);
 
   const noteId = notes.find((note) => note.user === userId)?.id || null;
 
