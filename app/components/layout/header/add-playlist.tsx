@@ -17,7 +17,6 @@ export default function AddPlaylist() {
       body: JSON.stringify({ id, title, category }),
     });
     const data = await response.json();
-    console.log(data);
   }, [id, title]);
 
   useEffect(() => {

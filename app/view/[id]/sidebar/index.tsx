@@ -31,10 +31,10 @@ export default function Sidebar({ id }: { id: string }) {
   }, [fetchVideo]);
 
   return (
-    <div className="relative flex h-screen w-[460px] flex-col overflow-auto pt-16">
+    <div className="relative flex h-full w-[460px] max-w-full flex-col overflow-auto md:h-screen md:pt-16">
       <div
         role="tablist"
-        className="tabs tabs-bordered sticky top-0 z-10 bg-base-100"
+        className="tabs tabs-bordered sticky top-0 z-10 shrink-0 bg-base-100"
       >
         {TABS.map((tab) => (
           <button

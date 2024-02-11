@@ -38,7 +38,7 @@ export default function Main() {
         ))}
       </div>
 
-      <div className="mt-20 grid w-full max-w-5xl grid-cols-4 gap-4">
+      <div className="mt-20 grid w-full max-w-5xl grid-cols-1 gap-4 px-4 md:grid-cols-3 lg:grid-cols-4">
         {playlists.map((playlist) => [
           <Link
             href={`/view/${playlist.videos[0]}`}
