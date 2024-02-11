@@ -4,6 +4,7 @@ import {
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
+  browserPopupRedirectResolver,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -25,7 +26,13 @@ const providers = {
 };
 
 export const signIn = async (provider: "github" | "google") => {
-  const rawUserData = (await signInWithPopup(auth, providers[provider])).user;
+  const rawUserData = (
+    await signInWithPopup(
+      auth,
+      providers[provider],
+      browserPopupRedirectResolver,
+    )
+  ).user;
   if (!rawUserData) {
     throw new Error("No user data returned");
   }
