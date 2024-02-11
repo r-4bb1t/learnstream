@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import cc from "classcat";
 import { CATEGORIES, CategoryType, PlaylistType } from "../type/playlist";
 import MainCard from "./card";
 import { CACHE_REVALIDATE } from "@/constant/cache";
+import { useUserStore } from "../store/user-store";
 
 export default function Main({
   defaultPlaylist,
@@ -13,6 +14,8 @@ export default function Main({
 }) {
   const [category, setCategory] = useState<CategoryType>("all");
   const [playlists, setPlaylists] = useState([] as PlaylistType[]);
+
+  const { user } = useUserStore();
 
   const fetchPlaylists = useCallback(async () => {
     const response = await fetch(`/api/playlist?category=${category}`, {
@@ -31,7 +34,7 @@ export default function Main({
   return (
     <div className="flex h-full w-full flex-col items-center pt-16">
       <div className="flex w-full flex-wrap justify-center gap-2 bg-base-100 p-4">
-        {CATEGORIES.map((c) => (
+        {CATEGORIES.filter((c) => c !== "picked" || user).map((c) => (
           <button
             key={c}
             className={cc([
