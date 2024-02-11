@@ -18,9 +18,7 @@ export default function VideoView({
           allowFullScreen
         ></iframe>
         <div className="mt-4 px-6">
-          <h1 className="text-2xl font-bold">
-            입문자를 위한 HTML 기초 강의 #0 강의 소개
-          </h1>
+          <h1 className="text-2xl font-bold">{/* title */}</h1>
         </div>
       </div>
       <Sidebar id={id} />
