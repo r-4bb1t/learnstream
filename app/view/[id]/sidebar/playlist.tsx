@@ -30,7 +30,7 @@ export default function Playlist({ id }: { id: string }) {
             <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg">
               <img
                 src={`https://img.youtube.com/vi/${item.id}/0.jpg`}
-                alt="thumbnail"
+                alt={"thumbnail of " + item.title}
                 className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
               />
               {/* <div className="absolute inset-x-0 bottom-0 h-1/2 bg-primary/50" /> */}

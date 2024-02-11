@@ -48,7 +48,7 @@ export default function Main() {
             <div className="aspect-video w-full overflow-hidden rounded-lg">
               <img
                 src={playlist.thumbnail}
-                alt="thumbnail"
+                alt={"thumbnail of" + playlist.title}
                 className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
               />
             </div>
