@@ -5,4 +5,6 @@ export interface UserType {
   image: string | null;
   provider: string;
   role: string;
+  playlists: string[];
+  notes: string[];
 }

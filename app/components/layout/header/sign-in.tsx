@@ -32,12 +32,12 @@ export default function SignIn() {
       if (user) {
         setUser(user);
         setError(null);
-        close();
+        setOpened(false);
         return;
       }
       setError("Failed to sign in");
     },
-    [close, setError, setUser],
+    [setError, setUser, setOpened],
   );
 
   const handleSignOut = async () => {
@@ -71,7 +71,7 @@ export default function SignIn() {
       }
     });
     return () => unsubscribe();
-  }, [setUser]);
+  }, [handleReissue, setUser]);
 
   return user ? (
     <div className="flex items-center gap-2 text-sm">

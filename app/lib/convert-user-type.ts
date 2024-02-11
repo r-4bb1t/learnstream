@@ -8,5 +8,7 @@ export const convertUserType = (rawUserData: User) => {
     image: rawUserData.photoURL,
     provider: rawUserData.providerData[0].providerId,
     role: "user",
+    playlists: [],
+    notes: [],
   };
 };

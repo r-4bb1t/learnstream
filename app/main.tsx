@@ -53,7 +53,9 @@ export default function Main() {
               />
             </div>
             <div className="px-1 py-2">
-              <div className="font-bold">{playlist.title}</div>
+              <div className="line-clamp-2 h-12 font-bold">
+                {playlist.title}
+              </div>
               <div className="text-sm opacity-60">{playlist.channelTitle}</div>
               <div className="text-sm opacity-80">
                 총 {playlist.videos.length}강 | {playlist.duration} |{" "}
