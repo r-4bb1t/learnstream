@@ -88,7 +88,7 @@ export default function Editor({
 
   if (!user) {
     return (
-      <div className="flex h-full w-full flex-col items-center justify-center gap-2">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-2 py-24">
         <h1>Sign in to edit notes</h1>
         <SignIn />
       </div>

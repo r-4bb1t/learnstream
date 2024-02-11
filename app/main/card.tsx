@@ -60,6 +60,7 @@ export default function MainCard({
               method: "POST",
             });
           }}
+          disabled={!user}
         >
           {playlist.isPicked ? "Unpick" : "Pick"}
         </button>

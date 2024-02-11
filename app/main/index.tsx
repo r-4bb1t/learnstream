@@ -29,8 +29,8 @@ export default function Main({
   }, [fetchPlaylists]);
 
   return (
-    <div className="flex h-full w-full flex-col items-center pt-16">
-      <div className="flex w-full justify-center gap-2">
+    <div className="flex h-full w-full flex-col items-center pt-24">
+      <div className="flex w-full flex-wrap justify-center gap-2 px-4">
         {CATEGORIES.map((c) => (
           <button
             key={c}

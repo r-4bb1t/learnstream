@@ -18,7 +18,7 @@ export default function Share({
 
   if (!user) {
     return (
-      <div className="flex h-full w-full flex-col items-center justify-center gap-2">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-2 py-24">
         <h1>Sign in to view shared notes</h1>
         <SignIn />
       </div>
@@ -52,7 +52,7 @@ export default function Share({
             </li>
           ))
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-center">
+          <div className="flex h-full w-full items-center justify-center py-24 text-center">
             <h1>
               There are no shared notes for this video.
               <br />
