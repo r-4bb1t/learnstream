@@ -16,5 +16,12 @@ export async function POST(request: Request) {
     notes: [...(videoData!.notes || []), doc],
   });
 
+  const userDoc = await db.doc(`users/${userId}`).get();
+  const userData = userDoc.data();
+
+  await db.doc(`users/${userId}`).update({
+    notes: [...(userData!.notes || []), doc],
+  });
+
   return Response.json({ id: doc.id });
 }
