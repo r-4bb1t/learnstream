@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AddPlaylist from "./add-playlist";
+import SignIn from "./sign-in";
 
 export default function Header() {
   return (
@@ -7,7 +8,7 @@ export default function Header() {
       <Link href={"/"} className="btn btn-ghost gap-0 text-xl">
         learnstream<sup>academy</sup>
       </Link>
-      <AddPlaylist />
+      <SignIn />
     </div>
   );
 }
