@@ -36,7 +36,7 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
   playlistRef.set({
     ...playlistDoc,
     pickedUser: playlistDoc.pickedUser.includes(userId)
-      ? playlistDoc.pickedUser.filter((user: string) => user == userId)
+      ? playlistDoc.pickedUser.filter((user: string) => user !== userId)
       : [...playlistDoc.pickedUser, userId],
   });
 
