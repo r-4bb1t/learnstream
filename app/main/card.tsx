@@ -55,11 +55,11 @@ export default function MainCard({
             addSuffix: true,
           })}
         </span>
-        <div className="relative mt-1 flex h-8 gap-2 overflow-clip opacity-80 hover:flex-wrap hover:overflow-visible [&:hover>svg]:hidden">
+        <div className="relative mt-1.5 flex h-8 gap-2 overflow-clip opacity-80 hover:flex-wrap hover:overflow-visible [&:hover>svg]:hidden">
           {playlist.tags.map((tag) => (
             <div
               key={tag}
-              className="h-fit whitespace-nowrap rounded-md border border-primary bg-base-100 px-1 py-0.5 text-xs capitalize text-primary"
+              className="h-fit whitespace-nowrap rounded-md border border-primary bg-base-100 px-1 py-px text-xs capitalize text-primary"
             >
               {tag}
             </div>
