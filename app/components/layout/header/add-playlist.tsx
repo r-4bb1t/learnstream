@@ -5,7 +5,6 @@ import { IoMdAdd } from "react-icons/io";
 import Modal from "../modal";
 import { CATEGORIES, CategoryType } from "@/app/type/playlist";
 import { revalidate } from "./action";
-import { WithContext as ReactTags } from "react-tag-input";
 
 export default function AddPlaylist() {
   const [opened, setOpened] = useState(false);
