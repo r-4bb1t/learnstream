@@ -19,7 +19,7 @@ export default function AddPlaylist() {
       body: JSON.stringify({ id, title, category, tags }),
     });
     revalidate();
-  }, [id, title]);
+  }, [category, id, tags, title]);
 
   useEffect(() => {
     setTitle("");
