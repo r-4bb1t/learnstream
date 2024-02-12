@@ -5,6 +5,7 @@ import { IoMdAdd } from "react-icons/io";
 import Modal from "../modal";
 import { CATEGORIES, CategoryType } from "@/app/type/playlist";
 import { revalidate } from "./action";
+import { WithContext as ReactTags } from "react-tag-input";
 
 export default function AddPlaylist() {
   const [opened, setOpened] = useState(false);
@@ -16,7 +17,7 @@ export default function AddPlaylist() {
   const handleAddPlaylist = useCallback(async () => {
     await fetch("/api/playlist", {
       method: "POST",
-      body: JSON.stringify({ id, title, category, tags: [] }),
+      body: JSON.stringify({ id, title, category, tags }),
     });
     revalidate();
   }, [id, title]);
@@ -79,6 +80,19 @@ export default function AddPlaylist() {
               className="input input-bordered w-full max-w-xs"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
+          <label className="form-control w-full max-w-xs">
+            <div className="label">
+              <span className="label-text">Tags</span>
+            </div>
+            <input
+              type="text"
+              placeholder="Type here (comma separated)"
+              className="input input-bordered w-full max-w-xs"
+              onChange={(e) =>
+                setTags(e.target.value.split(",").map((t) => t.trim()))
+              }
             />
           </label>
           <button
