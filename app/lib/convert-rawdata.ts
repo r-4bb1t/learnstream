@@ -19,6 +19,7 @@ export const convertPlaylist = (rawPlaylist: RawPlaylistType): PlaylistType => {
     ),
     category: "computer",
     pickedUser: [],
+    tags: [],
   };
 
   return playlist;
