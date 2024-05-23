@@ -6,13 +6,17 @@ import {
 } from "../type/playlist";
 
 export const convertPlaylist = (rawPlaylist: RawPlaylistType): PlaylistType => {
+  const item = rawPlaylist.items.filter(
+    (item) => item.snippet.thumbnails.default,
+  )[0];
   const playlist: PlaylistType = {
-    id: rawPlaylist.items[0].snippet.playlistId,
+    id: item.snippet.playlistId,
     title: "",
-    description: rawPlaylist.items[0].snippet.description,
-    thumbnail: rawPlaylist.items[0].snippet.thumbnails.high.url,
-    publishedAt: rawPlaylist.items[0].snippet.publishedAt,
-    channelTitle: rawPlaylist.items[0].snippet.channelTitle,
+    description: item.snippet.description,
+    thumbnail:
+      item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url,
+    publishedAt: item.snippet.publishedAt,
+    channelTitle: item.snippet.channelTitle,
     duration: "",
     videos: rawPlaylist.items.map(
       (rawVideo) => rawVideo.snippet.resourceId.videoId,

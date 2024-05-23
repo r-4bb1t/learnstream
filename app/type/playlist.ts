@@ -4,6 +4,8 @@ export const CATEGORIES = [
   "design",
   "data",
   "life",
+  "drawing",
+  "english",
   "picked",
 ] as const;
 
@@ -13,6 +15,8 @@ export const CATEGORY_EMOJI = {
   design: "🎨",
   data: "📊",
   life: "🏞",
+  drawing: "🎨",
+  english: "🔤",
   picked: "🌟",
 } as const;
 
