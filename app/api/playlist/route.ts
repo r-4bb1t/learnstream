@@ -102,11 +102,13 @@ export async function GET(request: Request) {
             .collection("playlists")
             .where("category", "==", category)
             .get();
+
   querySnapshot.forEach((doc) => {
+    const data = doc.data();
     playlists.push({
-      ...(doc.data() as PlaylistType),
-      videos: doc.data().videos.map((v: DocumentReference) => v.id),
-      isPicked: doc.data().pickedUser.includes(userId),
+      ...(data as PlaylistType),
+      videos: data.videos.map((v: DocumentReference) => v.id),
+      isPicked: data.pickedUser.includes(userId),
     });
   });
 
